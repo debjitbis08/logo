@@ -1,20 +1,41 @@
-import { onCleanup, onMount, createSignal } from "solid-js";
+import { onCleanup, onMount } from "solid-js";
 import { CanvasExecutor } from "../lib/CanvasExecutor";
 import { evaluate } from "@logo/core";
-import { store } from "../store/store"; // Assumes store.activeFile.content exists
-import ActionButton from "./ActionButton";
-import { HiSolidPlay, HiSolidStop, HiSolidWrench } from "solid-icons/hi";
+import { store } from "../store/store";
+import Actions from "./Actions";
 
 export default function DrawingArea() {
     let canvasRef: HTMLCanvasElement | undefined;
-    const [shouldRun, setShouldRun] = createSignal(false);
+    let containerRef: HTMLDivElement | undefined;
+    let executor: CanvasExecutor | undefined;
 
-    const runProgram = () => {
+    const resizeCanvas = () => {
+        if (!canvasRef || !containerRef) return;
+        const size = Math.min(containerRef.clientWidth, containerRef.clientHeight);
+        canvasRef.width = size - 2;
+        canvasRef.height = size - 2;
+    };
+
+    onMount(() => {
         if (!canvasRef) return;
         const ctx = canvasRef.getContext("2d");
         if (!ctx) return;
-        ctx.clearRect(0, 0, canvasRef.width, canvasRef.height);
-        const executor = new CanvasExecutor(ctx);
+        requestAnimationFrame(() => {
+            resizeCanvas();
+            executor = new CanvasExecutor(ctx); // color will now be correct
+        });
+
+        const resizeObserver = new ResizeObserver(resizeCanvas);
+        if (containerRef) resizeObserver.observe(containerRef);
+
+        onCleanup(() => {
+            resizeObserver.disconnect();
+            executor?.clear();
+        });
+    });
+
+    const runProgram = () => {
+        if (!executor) return;
         try {
             evaluate(store.activeFile.content, executor);
         } catch (err) {
@@ -22,26 +43,16 @@ export default function DrawingArea() {
         }
     };
 
-    onCleanup(() => {
-        const ctx = canvasRef?.getContext("2d");
-        if (ctx && canvasRef) {
-            ctx.clearRect(0, 0, canvasRef.width, canvasRef.height);
-        }
-    });
+    const clearCanvas = () => {
+        executor?.clear();
+    };
 
     return (
-        <div class="flex flex-col items-start gap-4">
-            <div class="flex items-center gap-2">
-                <ActionButton
-                    title="Run"
-                    icon={<HiSolidPlay class="text-terminal" />}
-                    onClick={() => {
-                        setShouldRun(true);
-                        runProgram();
-                    }}
-                />
+        <div class="flex flex-col h-full w-full items-start gap-4 pr-2">
+            <Actions onRun={runProgram} onClear={clearCanvas} />
+            <div class="flex-grow w-full h-full min-h-0" ref={(el) => (containerRef = el)}>
+                <canvas ref={canvasRef} class="border" />
             </div>
-            <canvas ref={canvasRef} width={500} height={500} class="border" />
         </div>
     );
 }

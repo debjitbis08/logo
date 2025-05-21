@@ -9,16 +9,15 @@ import DrawingArea from "../components/DrawingArea.tsx";
 <Layout title="Logo Playground" showActions={true} fullwidth={true} fullHeight={true} smallFooter={true}>
     <div class="flex items-start gap-2 h-full">
     <section
-        class="px-2 md:px-0 md:pr-0 md:pl-0 border-y border-y-main-border bg-main-background md:bg-secondary-background flex-grow min-w-0 max-w-[400px] h-full"
+        class="px-2 md:px-0 md:pr-0 md:pl-0 border-y border-y-main-border bg-main-background md:bg-secondary-background flex-grow min-w-[250px] md:max-w-[500px] lg:max-w-[800px] h-full"
     >
         <CodingArea client:visible />
     </section>
     <section
-        class="h-full"
+        class="h-full flex-grow-2"
     >
-            <div>
-                <Actions client:idle />
-                <DrawingArea client:only />
+            <div class="h-full">
+                <DrawingArea client:only="solid-js" />
             </div>
     </section>
     </div>

@@ -1,7 +1,7 @@
 Logo {
   Program    = (Statement __)*
 
-  Statement  = Forward | Repeat | Right
+  Statement  = Forward | Repeat | Right | Left
 
   Forward    = (caseInsensitive<"FORWARD"> | caseInsensitive<"FD">) Exp
 

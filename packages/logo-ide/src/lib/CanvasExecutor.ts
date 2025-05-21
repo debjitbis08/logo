@@ -2,13 +2,26 @@
 
 export class CanvasExecutor {
     private ctx: CanvasRenderingContext2D;
-    private x = 250;
-    private y = 250;
-    private angle = 0; // degrees
+    private x: number;
+    private y: number;
+    private angle = -90; // degrees
     private penDown = true;
+    private color: string;
 
-    constructor(ctx: CanvasRenderingContext2D) {
+    constructor(ctx: CanvasRenderingContext2D, x?: number, y?: number) {
         this.ctx = ctx;
+
+        const canvas = this.ctx.canvas;
+        this.x = x ?? canvas.width / 2;
+        this.y = y ?? canvas.height / 2;
+
+        const raw = getComputedStyle(document.documentElement).getPropertyValue("--lg-canvas-stroke").trim();
+        const computedColor = `rgb(${raw})`;
+        console.log(computedColor);
+        this.color = computedColor;
+        this.ctx.strokeStyle = computedColor;
+        this.ctx.fillStyle = computedColor;
+
         this.ctx.moveTo(this.x, this.y);
     }
 
@@ -21,6 +34,8 @@ export class CanvasExecutor {
             this.ctx.beginPath();
             this.ctx.moveTo(this.x, this.y);
             this.ctx.lineTo(newX, newY);
+
+            this.ctx.strokeStyle = this.color;
             this.ctx.stroke();
         }
 
@@ -53,5 +68,14 @@ export class CanvasExecutor {
         this.y = canvas.height / 2;
         this.angle = 0;
         this.ctx.moveTo(this.x, this.y);
+
+        // Reapply stroke color
+        const raw = getComputedStyle(document.documentElement).getPropertyValue("--lg-canvas-stroke").trim();
+        const color = raw ? `rgb(${raw})` : "#ffffff";
+        this.ctx.strokeStyle = color;
+        this.ctx.fillStyle = color;
+
+        // Optional: restore lineWidth if needed
+        this.ctx.lineWidth = 2;
     }
 }

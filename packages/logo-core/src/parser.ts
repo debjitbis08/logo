@@ -34,7 +34,8 @@ semantics.addOperation("eval()", {
         return { type: "turn", expr: expr.eval() };
     },
     Left(_fw, expr) {
-        return { type: "turn", expr: -1 * expr.eval() };
+        const value = expr.eval();
+        return { type: "turn", expr: { ...value, value: -1 * value.value } };
     },
     instructionlist(_l, ss, _r) {
         return ss.eval();

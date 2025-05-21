@@ -24,10 +24,9 @@ export default {
     content: {
         relative: true,
         files: [
-            "./pages/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}",
-            "./layouts/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}",
-            "./components/styles.css",
-            "./components/**/*.{astro,html,js,jsx,md,mdx,css}",
+            "./src/pages/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}",
+            "./src/layouts/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}",
+            "./src/components/**/*.{astro,html,js,jsx,ts,tsx,md,mdx,vue,css,module.css}",
         ],
     },
     future: {
@@ -116,5 +115,5 @@ export default {
             pattern: /(bg|text|border)-(editor|page)-.+/,
         },
     ],
-    plugins: [require("@tailwindcss/typography")],
+    plugins: [require("@tailwindcss/typography"), require("tailwindcss-animate")],
 };

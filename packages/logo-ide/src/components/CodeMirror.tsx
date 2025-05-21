@@ -4,7 +4,7 @@ import { EditorView, GutterMarker, Decoration, keymap, gutter } from "@codemirro
 import { defaultKeymap, indentWithTab } from "@codemirror/commands";
 import { basicSetup } from "codemirror";
 import "./CodeMirror.css";
-import { Tooltip } from "./generic/Tooltip";
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipPortal, TooltipArrow } from "./generic/Tooltip";
 import { FiHelpCircle } from "solid-icons/fi";
 import { store, setStore } from "../store/store";
 
@@ -109,20 +109,20 @@ export function CodeMirror(props) {
             >
                 <span>Editor is Read Only</span>
                 <Tooltip>
-                    <Tooltip.Trigger class="tooltip__trigger">
+                    <TooltipTrigger class="tooltip__trigger">
                         <span class="cursor-help text-lg">
                             <FiHelpCircle />
                         </span>
-                    </Tooltip.Trigger>
-                    <Tooltip.Portal>
-                        <Tooltip.Content class="tooltip__content">
-                            <Tooltip.Arrow />
+                    </TooltipTrigger>
+                    <TooltipPortal>
+                        <TooltipContent>
+                            <TooltipArrow />
                             <p>
                                 Editing is not allowed while program is loaded into memory to avoid mismatch between
                                 code and loaded program. Unload the program from memory to edit again.
                             </p>
-                        </Tooltip.Content>
-                    </Tooltip.Portal>
+                        </TooltipContent>
+                    </TooltipPortal>
                 </Tooltip>
             </span>
         </div>
