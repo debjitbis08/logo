@@ -1,0 +1,33 @@
+{
+    "name": "@logo/ide",
+    "type": "module",
+    "version": "0.0.1",
+    "scripts": {
+        "dev": "astro dev",
+        "build": "astro build",
+        "preview": "astro preview",
+        "astro": "astro"
+    },
+    "dependencies": {
+        "@astrojs/alpinejs": "^0.4.8",
+        "@astrojs/solid-js": "^5.0.10",
+        "@codemirror/commands": "^6.8.1",
+        "@codemirror/state": "^6.5.2",
+        "@codemirror/view": "^6.36.8",
+        "@kobalte/core": "^0.13.9",
+        "@logo/core": "workspace:^",
+        "@tailwindcss/vite": "^4.1.7",
+        "@thumbmarkjs/thumbmarkjs": "^0.20.2",
+        "@types/alpinejs": "^3.13.11",
+        "alpinejs": "^3.14.9",
+        "astro": "^5.7.13",
+        "codemirror": "^6.0.1",
+        "posthog-js": "^1.245.0",
+        "solid-icons": "^1.1.0",
+        "solid-js": "^1.9.7",
+        "tailwindcss": "^4.1.7"
+    },
+    "devDependencies": {
+        "@tailwindcss/typography": "^0.5.16"
+    }
+}

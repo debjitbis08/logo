@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1em" height="1em" viewBox="0 0 189 154" clip-rule="evenodd" fill-rule="evenodd" image-rendering="optimizeQuality" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" version="1.1" xmlns="http://www.w3.org/2000/svg">
+ <g transform="translate(0,2)">
+  <path d="m154.5 55.5c5.489 4e-3 7.322 2.6707 5.5 8-6.521 3.4945-9.187 1.4945-8-6 0.995-0.5659 1.828-1.2326 2.5-2z" fill="#f0f1f3"/>
+ </g>
+ <g>
+  <path transform="matrix(-.99998 -.0068732 .0045849 -.99999 0 0)" d="m-10.203-75.706a55.885 59.494 0 0 1-27.198 52.87 55.885 59.494 0 0 1-56.621 0.43945 55.885 59.494 0 0 1-27.919-52.442" stroke-width="17.155"/>
+  <rect x="2.3882" y="95.236" width="125.24" height="23.174" rx="11.142" ry="23.174" stroke-width="26.404"/>
+  <rect x="9.8704" y="64.009" width="111.79" height="23.174" rx="9.9451" ry="23.174" clip-rule="evenodd" fill-rule="evenodd" image-rendering="optimizeQuality" shape-rendering="geometricPrecision" stroke-width="24.946"/>
+ </g>
+ <path d="m141.91 77.328a31.431 29.514 0 0 1-24.837 29.431" fill="none" stroke="#000" stroke-width="22"/>
+ <g stroke="#000">
+  <rect x="133.42" y="43.688" width="10.368" height="40.285" rx="17.688" ry=".056215" stroke-width="7.8798"/>
+  <ellipse cx="157.13" cy="51.796" rx="18.376" ry="23.701" stroke-width="20.822"/>
+  <rect x="25.136" y="112.82" width="24.984" height="20.963" rx="2.5765" ry="10.481" stroke-width="13.922"/>
+  <rect x="80.545" y="112.74" width="24.984" height="20.963" rx="2.5765" ry="10.481" clip-rule="evenodd" fill-rule="evenodd" image-rendering="optimizeQuality" shape-rendering="geometricPrecision" stroke-width="13.922"/>
+ </g>
+ <ellipse cx="157.39" cy="49.233" rx="3.8598" ry="3.991" fill="#fff"/>
+</svg>

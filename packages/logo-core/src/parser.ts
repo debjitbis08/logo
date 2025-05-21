@@ -1,65 +1,70 @@
-import * as ohm from "ohm-js";
-import grammarDef from "./parser/logo.ohm?raw";
+import grammar, { LogoSemantics } from "./parser/logo.ohm-bundle";
 
-const grammar = ohm.grammar(grammarDef);
+const semantics: LogoSemantics = grammar.createSemantics();
 
 export type ExpressionNode =
-  | { type: "number"; value: number }
-  | {
-      type: "add" | "sub" | "mul" | "div";
-      left: ExpressionNode;
-      right: ExpressionNode;
-    };
+    | { type: "number"; value: number }
+    | {
+          type: "add" | "sub" | "mul" | "div";
+          left: ExpressionNode;
+          right: ExpressionNode;
+      };
 
 export interface AstNode {
-  type: "forward" | "repeat";
-  expr?: ExpressionNode;
-  body?: AstNode[];
+    type: "forward" | "repeat" | "turn";
+    expr?: ExpressionNode;
+    body?: AstNode[];
 }
 
-export function parse(input: string): AstNode[] {
-  const match = grammar.match(input);
-  if (match.failed()) throw new Error(match.message);
-
-  const semantics = grammar.createSemantics().addOperation("ast", {
+semantics.addOperation("eval()", {
     Program(statements, spaces) {
-      return statements.children.map((c) => c.ast());
+        return statements.children.map((c) => c.eval());
     },
     Forward(_fw, expr) {
-      return { type: "forward", expr: expr.ast() };
+        return { type: "forward", expr: expr.eval() };
     },
     Repeat(_rep, expr, block) {
-      return {
-        type: "repeat",
-        expr: expr.ast(),
-        body: block.ast(),
-      };
+        return {
+            type: "repeat",
+            expr: expr.eval(),
+            body: block.eval(),
+        };
+    },
+    Right(_fw, expr) {
+        return { type: "turn", expr: expr.eval() };
+    },
+    Left(_fw, expr) {
+        return { type: "turn", expr: -1 * expr.eval() };
     },
     instructionlist(_l, ss, _r) {
-      return ss.ast();
+        return ss.eval();
     },
     AddExp_plus(left, _op, right) {
-      return { type: "add", left: left.ast(), right: right.ast() };
+        return { type: "add", left: left.eval(), right: right.eval() };
     },
     AddExp_minus(left, _op, right) {
-      return { type: "sub", left: left.ast(), right: right.ast() };
+        return { type: "sub", left: left.eval(), right: right.eval() };
     },
     MulExp_times(left, _op, right) {
-      return { type: "mul", left: left.ast(), right: right.ast() };
+        return { type: "mul", left: left.eval(), right: right.eval() };
     },
     MulExp_divide(left, _op, right) {
-      return { type: "div", left: left.ast(), right: right.ast() };
+        return { type: "div", left: left.eval(), right: right.eval() };
     },
     PriExp_number(num) {
-      return { type: "number", value: Number(num.sourceString) };
+        return { type: "number", value: Number(num.sourceString) };
     },
     PriExp_paren(_l, expr, _r) {
-      return expr.ast();
+        return expr.eval();
     },
     number(_digits) {
-      return this.sourceString;
+        return this.sourceString;
     },
-  });
+});
 
-  return semantics(match).ast();
+export function parse(input: string): AstNode[] {
+    const match = grammar.match(input);
+    if (match.failed()) throw new Error(match.message);
+
+    return semantics(match).eval();
 }

@@ -1,0 +1,68 @@
+html[data-theme="light"] {
+  --lg-primary-50: 238 251 243;
+  --lg-primary-100: 214 245 225;
+  --lg-primary-200: 177 233 200;
+  --lg-primary-300: 126 215 169;
+  --lg-primary-400: 73 190 132;
+  --lg-primary-500: 38 162 105;
+  --lg-primary-600: 24 131 84;
+  --lg-primary-700: 19 105 69;
+  --lg-primary-800: 18 83 57;
+  --lg-primary-900: 15 69 48;
+  --lg-primary-950: 8 38 27;
+
+  --lg-primary: var(--lg-primary-500);
+
+  --lg-gray-50: 251 251 251; /* #fbfbfb */
+  --lg-gray-100: 239 239 239; /* #efefef */
+  --lg-gray-200: 220 220 220; /* #dcdcdc */
+  --lg-gray-300: 189 189 189; /* #bdbdbd */
+  --lg-gray-400: 152 152 152; /* #989898 */
+  --lg-gray-500: 124 124 124; /* #7c7c7c */
+  --lg-gray-600: 101 101 101; /* #656565 */
+  --lg-gray-700: 82 82 82; /* #525252 */
+  --lg-gray-800: 70 70 70; /* #464646 */
+  --lg-gray-900: 61 61 61; /* #3d3d3d */
+  --lg-gray-950: 41 41 41; /* #292929 */
+
+  --lg-page-background: 232 232 232; /* #e8e8e8 */
+  --lg-main-background: var(--lg-gray-50);
+  --lg-secondary-background: var(--lg-gray-100);
+  --lg-main-border: var(--lg-gray-300);
+
+  --lg-primary-foreground: var(--lg-gray-700);
+  --lg-primary-border: var(--lg-gray-600);
+
+  --lg-secondary-foreground: var(--lg-gray-500);
+  --lg-secondary-border: var(--lg-gray-600);
+
+  --lg-active-foreground: var(--lg-gray-700);
+  --lg-active-background: var(--lg-gray-200);
+  --lg-active-border: var(--lg-gray-300);
+
+  --lg-inactive-foreground: var(--lg-gray-400);
+  --lg-inactive-border: var(--lg-gray-200);
+
+  --lg-red-foreground: 185 28 28; /* #b91c1c */
+  --lg-green-foreground: 21 128 61; /* #15803d */
+  --lg-yellow-foreground: 234 179 8; /* #eab308 */
+  --lg-blue-foreground: 96 165 250; /* #60a5fa */
+  --lg-orange-foreground: 234 88 12; /* #ea580c */
+
+  /* Editor colors */
+  --lg-editor-active-line: 191 219 254; /* #bfdbfe */
+  --lg-editor-debug-line: 96 165 250; /* #60a5fa */
+  --lg-editor-active-line-gutter: 255 255 255;
+  --lg-editor-cursor: 75 85 99; /* #4b5563 */
+  --lg-editor-selection-background: 191 219 254; /* #bfdbfe */
+
+  --lg-editor-opcode: 28 128 61;
+  --lg-editor-directive: 29 78 216;
+  --lg-editor-label: 168 91 7;
+  --lg-editor-comment: 107 114 128;
+  --lg-editor-register: 185 28 28;
+  --lg-editor-number: 194 65 12;
+  --lg-editor-string: 234 88 12;
+  --lg-editor-operator: 190 24 93;
+  --lg-editor-punctuation: 75 85 99;
+}

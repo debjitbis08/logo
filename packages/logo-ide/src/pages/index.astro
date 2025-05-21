@@ -1,0 +1,25 @@
+---
+import Welcome from '../components/Welcome.astro';
+import Layout from '../layouts/Layout.astro';
+import CodingArea from "../components/CodingArea.tsx";
+import Actions from "../components/Actions.tsx";
+import DrawingArea from "../components/DrawingArea.tsx";
+---
+
+<Layout title="Logo Playground" showActions={true} fullwidth={true} fullHeight={true} smallFooter={true}>
+    <div class="flex items-start gap-2 h-full">
+    <section
+        class="px-2 md:px-0 md:pr-0 md:pl-0 border-y border-y-main-border bg-main-background md:bg-secondary-background flex-grow min-w-0 max-w-[400px] h-full"
+    >
+        <CodingArea client:visible />
+    </section>
+    <section
+        class="h-full"
+    >
+            <div>
+                <Actions client:idle />
+                <DrawingArea client:only />
+            </div>
+    </section>
+    </div>
+</Layout>

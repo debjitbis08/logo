@@ -1,0 +1,221 @@
+---
+import SponsorIcon from '../assets/icons/sponsor.svg';
+import LockIcon from '../assets/icons/lock.svg';
+import MenuIcon from '../assets/icons/menu.svg';
+import LogoLight from '../assets/icons/turtle-light.svg';
+import LogoDark from '../assets/icons/turtle-dark.svg';
+import YoutubeIcon from '../assets/icons/youtube.svg';
+import ThemeSwitcher from './ThemeSwitcher.astro';
+
+interface Props {
+    showActions: boolean;
+    fullwidth: boolean;
+}
+
+const {showActions, fullwidth} = Astro.props;
+---
+<header class="w-full py-0 md:py-4 justify-start md:justify-between items-center h-auto md:h-16 md:flex">
+    <div class="flex items-center gap-2 w-full">
+        <!-- <a href="/" class="w-[25vw] md:min-w-[295px] flex items-center gap-2 pl-4">
+            <span class="w-6 h-6 text-terminal"><Fragment set:html={LogoWithBackground} /></span>
+            <span class="text-gray-800 dark:text-gray-200">Sim8085</span>
+        </a> -->
+        <div class="md:block">
+            <a
+                href="/"
+                class="inline-flex items-center gap-2 ml-1 pl-1 lg:ml-2 lg:pl-2 pr-2 py-2 rounded group lg:hover:bg-orange-500 relative"
+            >
+                <span class="w-6 h-6 text-terminal z-10 relative dark:hidden">
+                    <LogoLight width={24} height={24} />
+                </span>
+                <span class="w-6 h-6 text-terminal z-10 relative hidden dark:block">
+                    <LogoDark width={24} height={24} />
+                </span>
+                <span
+                    class="hidden lg:block lg:absolute text-nowrap left-8 opacity-0 transform translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 group-hover:static text-gray-800 dark:text-gray-300"
+                >
+                    Logo Playground
+                </span>
+            </a>
+        </div>
+        <div class={`flex items-start pr-2 md:pr-4 ml-auto`}>
+            <!-- <div class="flex flex-grow items-center gap-2 space-x-2"> -->
+            <!-- <div class="pl-2 border-r border-r-gray-500 dark:border-r-gray-600 h-4"></div> -->
+            <div class="flex items-center gap-2">
+                <ThemeSwitcher />
+                <!-- <link href="https://fonts.googleapis.com/css?family=Cookie&amp;display=swap" rel="stylesheet"> -->
+                <!-- Profile Icon and Logout Button -->
+                <a
+                    class="transition-colors font-bold relative z-[1] h-8 py-4 px-4 hidden md:flex items-center gap-2 rounded-lg text-sm bg-transparent box-border text-secondary-foreground hover:text-active-foreground border border-inactive-border hover:border-secondary-border"
+                    href="/donate/"
+                >
+                    <span class="text-red-foreground">
+                        <SponsorIcon />
+                    </span> <span class="hidden md:inline bmc-btn-text">Donate</span>
+                </a>
+                <button
+                    x-data="unlockPlusButton"
+                    type="button"
+                    class="hidden h-8 py-4 px-4 flex items-center gap-2 rounded text-sm bg-transparent hover:bg-secondary-background box-border border border-main-border hover:border-yellow-foreground text-yellow-foreground"
+                    @click="showPlusDialog"
+                    x-show="tier === 'FREE'"
+                >
+                    <span>
+                        <LockIcon />
+                    </span>
+                    <span class="hidden md:inline bmc-btn-text">Unlock Plus</span>
+                </button>
+                <div x-data="mobileMenu" class="relative block md:hidden">
+                    <div class="relative">
+                        <button @click="menuOpen = !menuOpen" class="flex items-center focus:outline-none py-1">
+                            <span
+                                class="w-8 h-8 rounded-full text-xl content-center text-inactive-foreground hover:text-active-foreground flex items-center justify-end">
+                                <MenuIcon />
+                            </span>
+                        </button>
+                        <div x-show="menuOpen" @click.away="menuOpen = false"
+                             class="absolute right-0 mt-2 w-48 bg-secondary-background rounded-md shadow-lg overflow-hidden z-10">
+                            <template x-if="isLoggedIn">
+                                <button @click="logout"
+                                        class="block w-full px-4 py-2 text-sm text-left text-active-foreground hover:bg-active-background">
+                                    Logout
+                                </button>
+                            </template>
+                            <template x-if="!isLoggedIn">
+                                <a href="/login/"
+                                   class="block w-full px-4 py-2 text-sm text-left text-active-foreground hover:bg-active-background">
+                                    Login
+                                </a>
+                            </template>
+                            <a href="/donate/"
+                               class="block w-full px-4 py-2 text-sm text-left text-active-foreground hover:bg-active-background">
+                                Support
+                            </a>
+                            <a href="/docs/en/"
+                               target="_blank"
+                               class="block w-full px-4 py-2 text-sm text-left text-active-foreground hover:bg-active-background">
+                                Documentation
+                            </a>
+                            <a href="/changelog/"
+                               target="_blank"
+                               class="block w-full px-4 py-2 text-sm text-left text-active-foreground hover:bg-active-background">
+                                Changelog
+                            </a>
+                            <a href="https://github.com/debjitbis08/sim8085"
+                               target="_blank"
+                               class="block w-full px-4 py-2 text-sm text-left text-active-foreground hover:bg-active-background">
+                                GitHub
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<style>
+    .regular-icon {
+        display: block;
+    }
+
+    .solid-icon {
+        display: none;
+    }
+
+    .solid .solid-icon {
+        display: block
+    }
+
+    .solid .regular-icon {
+        display: none;
+    }
+</style>
+<script>
+    import Alpine from 'alpinejs';
+    import posthog from 'posthog-js';
+
+    document.addEventListener('alpine:init', () => {
+
+        Alpine.data("mobileMenu", () => ({
+            isLoggedIn: false,
+            menuOpen: false,
+
+            async init() {
+                if (typeof supabase === "undefined") return;
+                const user = (await getUserFromSession()).user;
+                this.isLoggedIn = !!user;
+            },
+
+            async logout() {
+                await signOut();
+                localStorage.removeItem("activeFile");
+                window.location.reload(); // Refresh the page after logout
+            },
+        }));
+
+        Alpine.data("unlockPlusButton", () => ({
+            tier: "FREE",
+            async init() {
+                const data = await this.fetchUserId();
+
+                this.tier = data ? data.tier : "FREE";
+            },
+
+            async fetchUserId() {
+                if (typeof supabase === "undefined") return;
+
+                const {user, error} = await getUser();
+
+                if (error && error.name === 'AuthSessionMissingError') {
+                    return null;
+                }
+
+                if (error || user == null) throw new Error("Unable to fetch user ID");
+
+                const { data: tier, error: tierFetchError } = await supabase
+                    .from("customers")
+                    .select("subscription_tier")
+                    .eq("id", user?.id)
+                    .single();
+
+                if (tierFetchError) throw new Error("Unable to fetch user's subscription tier.");
+
+                return { id: user?.id, tier: tier.subscription_tier };
+            },
+
+            showPlusDialog() {
+                window.dispatchEvent(
+                    new CustomEvent("showPlusDialog", {
+                        detail: {},
+                    })
+                );
+            }
+        }));
+    });
+
+    document.getElementById("left-panel-btn")?.addEventListener("click", function () {
+        window.dispatchEvent(
+            new CustomEvent("showLeftPanel", {
+                detail: {},
+            })
+        );
+        this.classList.toggle("solid");
+        const rightPanelBtn = document.getElementById("right-panel-btn");
+        rightPanelBtn?.classList.remove("solid");
+    });
+
+    document.getElementById("right-panel-btn")?.addEventListener("click", function () {
+        window.dispatchEvent(
+            new CustomEvent("showRightPanel", {
+                detail: {},
+            })
+        );
+        this.classList.toggle("solid");
+        const leftPanelBtn = document.getElementById("left-panel-btn");
+        leftPanelBtn?.classList.remove("solid");
+    });
+</script>
+
+
+

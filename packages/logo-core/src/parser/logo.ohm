@@ -1,11 +1,14 @@
 Logo {
   Program    = (Statement __)*
 
-  Statement  = Forward | Repeat
+  Statement  = Forward | Repeat | Right
 
   Forward    = (caseInsensitive<"FORWARD"> | caseInsensitive<"FD">) Exp
 
   Repeat     = caseInsensitive<"REPEAT"> Exp instructionlist
+
+  Right      = caseInsensitive<"RIGHT"> Exp
+  Left       = caseInsensitive<"LEFT"> Exp
   
   instructionlist
   	  = "[" applySyntactic<Program> "]"

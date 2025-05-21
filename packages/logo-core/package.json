@@ -1,18 +1,22 @@
 {
-  "name": "@logo/core",
-  "version": "1.0.0",
-  "description": "",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "test": "vitest",
-    "test:dev": "vitest --watch",
-    "build": "tsup src/index.ts --dts --format esm,cjs"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
-  "dependencies": {
-    "ohm-js": "^17.1.0"
-  }
+    "name": "@logo/core",
+    "version": "1.0.0",
+    "description": "",
+    "main": "dist/index.esm.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "test": "vitest",
+        "test:dev": "vitest --watch",
+        "build-grammar": "ohm generateBundles --esm --withTypes 'src/parser/*.ohm'",
+        "build": "pnpm build-grammar && tsc --emitDeclarationOnly --declaration --outDir dist && tsup --format esm"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "BSD-3-Clause",
+    "dependencies": {
+        "ohm-js": "^17.1.0"
+    },
+    "devDependencies": {
+        "@ohm-js/cli": "^2.0.0"
+    }
 }
